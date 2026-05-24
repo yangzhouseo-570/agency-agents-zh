@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 #
-# audit-agents.sh — Enhanced quality audit for agent .md files
+# audit-agents.sh -- Enhanced quality audit for agent .md files
 #
-# Rules (L001–L008):
+# Rules:
 #   L001  ERROR  frontmatter must exist (--- at line 1)
-#   L002  ERROR  frontmatter must have name, description, color
+#   L002  ERROR  frontmatter must have name, description, color, emoji
 #   L003  WARN   recommended section headers present (Identity, Core Mission, Critical Rules)
 #   L004  WARN   file has meaningful body content (>= 100 words)
 #   L005  ERROR  no broken relative links to other agent files
 #   L006  WARN   color field is valid (named color or #hex)
 #   L007  WARN   description is non-empty and not a placeholder
-#   L008  WARN   file path matches name in frontmatter (lowercase-with-dashes)
-#
-# Exit code: non-zero when any ERROR rule fails.
+#   L008  WARN   file path matches name in frontmatter (slug form)
 #
 # Usage: ./scripts/audit-agents.sh [--json] [--strict] [--phase DIR]
-#   --json    CI-friendly output
-#   --strict  Exit 1 on any warning (not just error)
-#   --phase   Audit single directory only (e.g. --phase engineering)
 
 set -euo pipefail
 
@@ -28,178 +23,102 @@ AGENT_DIRS=(
 )
 
 # Parse args
-JSON_OUTPUT=false
-STRICT=false
-PHASE_FILTER=""
+json_output=false
+strict_mode=false
+phase_filter=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --json)    JSON_OUTPUT=true; shift ;;
-    --strict)  STRICT=true; shift ;;
-    --phase)   PHASE_FILTER="$2"; shift 2 ;;
-    *)         echo "Unknown arg: $1" >&2; exit 1 ;;
+    --json)   json_output=true; shift ;;
+    --strict) strict_mode=true; shift ;;
+    --phase)  phase_filter="$2"; shift 2 ;;
+    *)        echo "Unknown arg: $1" >&2; exit 1 ;;
   esac
 done
 
-errors=0
-warnings=0
-declare -A results_json
+err_count=0
+warn_count=0
 
-# Log to stdout or capture
-log() {
-  if [[ "$JSON_OUTPUT" == "true" ]]; then
-    return
-  fi
-  echo "$@"
-}
-
-err() {
-  errors=$((errors + 1))
-  if [[ "$JSON_OUTPUT" == "true" ]]; then
-    results_json["E:$1"]+="  $2\n"
-  else
-    echo "ERROR $2: L$1"
-  fi
-}
-
-warn() {
-  warnings=$((warnings + 1))
-  if [[ "$JSON_OUTPUT" == "true" ]]; then
-    results_json["W:$1"]+="  $2\n"
-  else
-    echo "WARN  $2: L$1"
-  fi
-}
+err() { err_count=$((err_count + 1)); echo "ERROR $2: L$1"; }
+warn() { warn_count=$((warn_count + 1)); echo "WARN  $2: L$1"; }
 
 # Collect files
-files=()
-if [[ -n "$PHASE_FILTER" ]]; then
-  if [[ -d "$PHASE_FILTER" ]]; then
-    while IFS= read -r f; do
-      files+=("$f")
-    done < <(find "$PHASE_FILTER" -name "*.md" -type f | sort)
-  else
-    echo "Directory not found: $PHASE_FILTER" >&2
-    exit 1
-  fi
+file_list=()
+if [[ -n "$phase_filter" ]] && [[ -d "$phase_filter" ]]; then
+  while IFS= read -r f; do
+    file_list+=("$f")
+  done < <(find "$phase_filter" -name "*.md" -type f | sort)
 else
   for dir in "${AGENT_DIRS[@]}"; do
-    if [[ -d "$dir" ]]; then
-      while IFS= read -r f; do
-        files+=("$f")
-      done < <(find "$dir" -name "*.md" -type f | sort)
-    fi
+    [[ -d "$dir" ]] || continue
+    while IFS= read -r f; do
+      file_list+=("$f")
+    done < <(find "$dir" -name "*.md" -type f | sort)
   done
 fi
 
-if [[ ${#files[@]} -eq 0 ]]; then
-  echo "No agent files found." >&2
-  exit 1
-fi
+total=${#file_list[@]}
+[[ $total -gt 0 ]] || { echo "No agent files found." >&2; exit 1; }
 
-log "Auditing ${#files[@]} agent files..."
+[[ "$json_output" == "true" ]] || echo "Auditing $total agent files..."
 
-for file in "${files[@]}"; do
+for file in "${file_list[@]}"; do
 
-  # L001: frontmatter at line 1
   first_line=$(head -1 "$file")
-  if [[ "$first_line" != "---" ]]; then
-    err "L001" "$file"
-    continue
-  fi
+  [[ "$first_line" == "---" ]] || { err "L001" "$file"; continue; }
 
-  # Extract frontmatter block
-  frontmatter=$(awk 'NR==1{next} /^---$/{exit} {print}' "$file")
-  if [[ -z "$frontmatter" ]]; then
-    err "L001" "$file: empty or missing frontmatter"
-    continue
-  fi
+  fm=$(awk 'NR==1{next} /^---$/{exit} {print}' "$file")
+  [[ -n "$fm" ]] || { err "L001" "$file: empty frontmatter"; continue; }
 
-  # L002: required fields
-  for field in name description color; do
-    if ! echo "$frontmatter" | grep -qE "^${field}:"; then
-      err "L002" "$file: missing frontmatter field '$field'"
-    fi
+  for field in name description color emoji; do
+    echo "$fm" | grep -qE "^${field}:" || err "L002" "$file: missing '$field'"
   done
 
-  # Get body (after second ---)
   body=$(awk 'BEGIN{n=0} /^---$/{n++; next} n>=2{print}' "$file")
 
-  # L003: recommended sections
-  has_identity=false; has_core=false; has_rules=false
-  if echo "$body" | grep -qiE "(Identity|身份|记忆|你的身份)"; then has_identity=true; fi
-  if echo "$body" | grep -qiE "(Core Mission|核心使命)"; then has_core=true; fi
-  if echo "$body" | grep -qiE "(Critical Rules|关键规则)"; then has_rules=true; fi
-  if ! $has_identity; then warn "L003" "$file: missing Identity section"; fi
-  if ! $has_core;   then warn "L003" "$file: missing Core Mission section"; fi
-  if ! $has_rules;  then warn "L003" "$file: missing Critical Rules section"; fi
+  echo "$body" | grep -qiE "(Identity|身份|记忆|你的身份)" || warn "L003" "$file: missing Identity"
+  echo "$body" | grep -qiE "(Core Mission|核心使命)"              || warn "L003" "$file: missing Core Mission"
+  echo "$body" | grep -qiE "(Critical Rules|关键规则)"           || warn "L003" "$file: missing Critical Rules"
 
-  # L004: content length
-  word_count=$(echo "$body" | wc -w)
-  if [[ $word_count -lt 100 ]]; then
-    warn "L004" "$file: body content too short ($word_count words, expected >= 100)"
-  fi
+  words=$(echo "$body" | wc -w)
+  [[ $words -ge 100 ]] || warn "L004" "$file: only $words words (min 100)"
 
-  # L005: broken relative links
   while IFS= read -r link; do
-    # link is like ./engineering/xxx.md or ../xxx.md
+    [[ "$link" =~ ^https ]] && continue
     link_dir=$(dirname "$link")
-    if [[ "$link_dir" == "." ]]; then
-      # same-dir link, resolve from file's dir
-      target="${file%/*}/$link"
-    else
-      target="$link"
-    fi
-    if [[ ! -f "$target" ]]; then
-      err "L005" "$file: broken link to $link"
-    fi
-  done < <(grep -oP '(?<=\]\()(?!\.\.|http)[^)]+\.md' "$file" 2>/dev/null || true)
+    [[ "$link_dir" == "." ]] && target="${file%/*}/$link" || target="$link"
+    [[ -f "$target" ]] || { err "L005" "$file: broken link $link"; break; }
+  done < <(grep -oP '(?<=\]\()(?!https|\.\.)[^)]+\.md' "$file" 2>/dev/null || true)
 
-  # L006: valid color
-  color_val=$(echo "$frontmatter" | grep -E "^color:" | head -1 | cut -d: -f2- | tr -d ' "')
-  if [[ -n "$color_val" ]]; then
-    # Strip any remaining quotes
-    color_val=$(echo "$color_val" | tr -d '"'"' )
-    if ! [[ "$color_val" =~ ^[a-z]+(-[a-z]+)*$ ]] && ! [[ "$color_val" =~ ^#[0-9a-fA-F]{3,8}$ ]]; then
-      if ! [[ "$color_val" =~ ^(red|blue|green|purple|orange|pink|yellow|gray|grey|brown|black|white|cyan|magenta|lime|navy|teal|olive|maroon|violet|indigo|gold|silver|aqua)$ ]]; then
-        warn "L006" "$file: unusual color value '$color_val'"
-      fi
-    fi
+  color=$(echo "$fm" | grep -E "^color:" | head -1 | cut -d: -f2- | tr -d ' "')
+  [[ -n "$color" ]] || continue
+  color=$(echo "$color" | tr -d \'\")
+  if [[ ! "$color" =~ ^[a-z]+(-[a-z]+)*$ ]] && [[ ! "$color" =~ ^#[0-9a-fA-F]{3,8}$ ]]; then
+    [[ "$color" =~ ^(red|blue|green|purple|orange|pink|yellow|gray|grey|brown|black|white|cyan|magenta|lime|navy|teal|olive|maroon|violet|indigo|gold|silver|aqua)$ ]] || \
+      warn "L006" "$file: unusual color '$color'"
   fi
 
-  # L007: description not placeholder
-  desc_val=$(echo "$frontmatter" | grep -E "^description:" | head -1 | cut -d: -f2- | tr -d ' ')
-  if [[ -z "$desc_val" ]]; then
-    warn "L007" "$file: description is empty"
-  elif [[ "$desc_val" == "一句话描述这个智能体干什么" ]]; then
-    warn "L007" "$file: description is still a placeholder"
+  desc=$(echo "$fm" | grep -E "^description:" | head -1 | cut -d: -f2- | tr -d ' ')
+  if [[ -z "$desc" ]]; then
+    warn "L007" "$file: empty description"
+  elif [[ "$desc" == "一句话描述这个智能体干什么" ]]; then
+    warn "L007" "$file: description is placeholder"
   fi
 
-  # L008: filename matches frontmatter name (slug form)
-  fm_name_raw=$(echo "$frontmatter" | grep -E "^name:" | head -1 | cut -d: -f2-)
-  fm_name=$(echo "$fm_name_raw" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
-  if [[ -n "$fm_name" ]]; then
-    expected_filename="${fm_name}.md"
-    actual_filename=$(basename "$file")
-    if [[ "$actual_filename" != "$expected_filename" ]]; then
-      warn "L008" "$file: filename '$actual_filename' != expected slug '$expected_filename'"
-    fi
-  fi
+  fm_name=$(echo "$fm" | grep -E "^name:" | head -1 | cut -d: -f2- | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
+  [[ -n "$fm_name" ]] || continue
+  expected="${fm_name}.md"
+  actual=$(basename "$file")
+  [[ "$actual" == "$expected" ]] || warn "L008" "$file: expected '$expected'"
 
 done
 
 echo ""
-if [[ "$JSON_OUTPUT" == "true" ]]; then
-  echo "{\"errors\": $errors, \"warnings\": $warnings, \"files\": ${#files[@]}}"
+if [[ "$json_output" == "true" ]]; then
+  printf '{"errors":%d,"warnings":%d,"files":%d}\n' "$err_count" "$warn_count" "$total"
 else
-  echo "Result: $errors errors, $warnings warnings (${#files[@]} files)"
-  if [[ $errors -gt 0 ]]; then
-    echo "FAILED — fix errors above."
-    exit 1
-  elif [[ $STRICT == "true" && $warnings -gt 0 ]]; then
-    echo "FAILED — strict mode: warnings treated as errors."
-    exit 1
-  else
-    echo "PASSED"
-    exit 0
-  fi
+  result_msg="Result: $err_count errors, $warn_count warnings ($total files)"
+  echo "$result_msg"
+  [[ $err_count -gt 0 ]] && { echo "FAILED -- fix errors above."; exit 1; }
+  [[ "$strict_mode" == "true" && $warn_count -gt 0 ]] && { echo "FAILED -- strict mode."; exit 1; }
+  echo "PASSED"
 fi
