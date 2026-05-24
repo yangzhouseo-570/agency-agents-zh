@@ -1,7 +1,6 @@
 # 智能体速查表
 
 > Ctrl+F / Cmd+F 搜索中文名，找到对应文件路径，直接告诉 AI 工具加载。
->
 > 用法示例：`请使用 engineering/engineering-software-architect.md 这个角色来评审我的架构`
 
 ---
@@ -30,7 +29,7 @@
 | 视觉叙事师 | `design/design-visual-storyteller.md` |
 | 趣味注入师 | `design/design-whimsy-injector.md` |
 
-## 🛠️ 工程部 (35)
+## 🛠️ 工程部 (33)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -39,22 +38,20 @@
 | 自主优化架构师 | `engineering/engineering-autonomous-optimization-architect.md` |
 | 后端架构师 | `engineering/engineering-backend-architect.md` |
 | CMS 开发者 | `engineering/engineering-cms-developer.md` |
-| 代码库入职引导工程师 | `engineering/engineering-codebase-onboarding-engineer.md` |
 | 代码审查员 | `engineering/engineering-code-reviewer.md` |
+| 代码库入职引导工程师 | `engineering/engineering-codebase-onboarding-engineer.md` |
 | 数据工程师 | `engineering/engineering-data-engineer.md` |
-| 邮件智能工程师 | `engineering/engineering-email-intelligence-engineer.md` |
 | 数据库优化师 | `engineering/engineering-database-optimizer.md` |
 | DevOps 自动化师 | `engineering/engineering-devops-automator.md` |
 | 钉钉集成开发工程师 | `engineering/engineering-dingtalk-integration-developer.md` |
+| 邮件智能工程师 | `engineering/engineering-email-intelligence-engineer.md` |
 | 嵌入式固件工程师 | `engineering/engineering-embedded-firmware-engineer.md` |
-| 上位机工程师 | `engineering/engineering-pc-host-engineer.md` |
-| Filament 优化专家 | `engineering/engineering-filament-optimization-specialist.md` |
 | 嵌入式 Linux 驱动工程师 | `engineering/engineering-embedded-linux-driver-engineer.md` |
 | 飞书集成开发工程师 | `engineering/engineering-feishu-integration-developer.md` |
+| Filament 优化专家 | `engineering/engineering-filament-optimization-specialist.md` |
 | FPGA/ASIC 数字设计工程师 | `engineering/engineering-fpga-digital-design-engineer.md` |
 | 前端开发者 | `engineering/engineering-frontend-developer.md` |
 | Git 工作流大师 | `engineering/engineering-git-workflow-master.md` |
-| 机械设计工程师 | `engineering/engineering-mechanical-design-engineer.md` |
 | 故障响应指挥官 | `engineering/engineering-incident-response-commander.md` |
 | IoT 方案架构师 | `engineering/engineering-iot-solution-architect.md` |
 | 最小变更工程师 | `engineering/engineering-minimal-change-engineer.md` |
@@ -70,7 +67,7 @@
 | 语音 AI 集成工程师 | `engineering/engineering-voice-ai-integration-engineer.md` |
 | 微信小程序开发者 | `engineering/engineering-wechat-mini-program-developer.md` |
 
-## 🏦 金融部 (8)
+## 💰 财务部 (8)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -83,32 +80,17 @@
 | 发票管理专家 | `finance/finance-invoice-manager.md` |
 | 税务策略师 | `finance/finance-tax-strategist.md` |
 
-## 🎮 游戏开发部 (20)
+## 🎮 游戏开发部 (5)
 
 | 中文名 | 文件路径 |
 |--------|----------|
-| Blender 插件工程师 | `game-development/blender/blender-addon-engineer.md` |
 | 游戏音频工程师 | `game-development/game-audio-engineer.md` |
 | 游戏设计师 | `game-development/game-designer.md` |
-| Godot 游戏脚本开发者 | `game-development/godot/godot-gameplay-scripter.md` |
-| Godot 多人游戏工程师 | `game-development/godot/godot-multiplayer-engineer.md` |
-| Godot Shader 开发者 | `game-development/godot/godot-shader-developer.md` |
 | 关卡设计师 | `game-development/level-designer.md` |
 | 叙事设计师 | `game-development/narrative-designer.md` |
-| Roblox 虚拟形象创作者 | `game-development/roblox-studio/roblox-avatar-creator.md` |
-| Roblox 体验设计师 | `game-development/roblox-studio/roblox-experience-designer.md` |
-| Roblox 系统脚本工程师 | `game-development/roblox-studio/roblox-systems-scripter.md` |
 | 技术美术 | `game-development/technical-artist.md` |
-| Unity 架构师 | `game-development/unity/unity-architect.md` |
-| Unity 编辑器工具开发者 | `game-development/unity/unity-editor-tool-developer.md` |
-| Unity 多人游戏工程师 | `game-development/unity/unity-multiplayer-engineer.md` |
-| Unity Shader Graph 美术师 | `game-development/unity/unity-shader-graph-artist.md` |
-| Unreal 多人游戏架构师 | `game-development/unreal-engine/unreal-multiplayer-architect.md` |
-| Unreal 系统工程师 | `game-development/unreal-engine/unreal-systems-engineer.md` |
-| Unreal 技术美术 | `game-development/unreal-engine/unreal-technical-artist.md` |
-| Unreal 世界构建师 | `game-development/unreal-engine/unreal-world-builder.md` |
 
-## 👔 人力资源部 (2)
+## 👥 人力资源部 (2)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -122,7 +104,7 @@
 | 合同审查专家 | `legal/legal-contract-reviewer.md` |
 | 制度文件撰写专家 | `legal/legal-policy-writer.md` |
 
-## 📢 营销部 (36)
+## 📣 市场部 (35)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -133,9 +115,8 @@
 | B站内容策略师 | `marketing/marketing-bilibili-strategist.md` |
 | 图书联合作者 | `marketing/marketing-book-co-author.md` |
 | 轮播图增长引擎 | `marketing/marketing-carousel-growth-engine.md` |
-| 中国市场本地化策略师 | `marketing/marketing-china-market-localization-strategist.md` |
-| 新闻情报官 | `marketing/marketing-daily-news-briefing.md` |
 | 中国电商运营专家 | `marketing/marketing-china-ecommerce-operator.md` |
+| 中国市场本地化策略师 | `marketing/marketing-china-market-localization-strategist.md` |
 | 内容创作者 | `marketing/marketing-content-creator.md` |
 | 跨境电商运营专家 | `marketing/marketing-cross-border-ecommerce.md` |
 | 抖音策略师 | `marketing/marketing-douyin-strategist.md` |
@@ -153,8 +134,8 @@
 | 短视频剪辑指导师 | `marketing/marketing-short-video-editing-coach.md` |
 | 社交媒体策略师 | `marketing/marketing-social-media-strategist.md` |
 | TikTok 策略师 | `marketing/marketing-tiktok-strategist.md` |
-| 视频优化专家 | `marketing/marketing-video-optimization-specialist.md` |
 | Twitter 互动官 | `marketing/marketing-twitter-engager.md` |
+| 视频优化专家 | `marketing/marketing-video-optimization-specialist.md` |
 | 微信公众号管理 | `marketing/marketing-wechat-official-account.md` |
 | 微信公众号运营 | `marketing/marketing-wechat-operator.md` |
 | 微博运营策略师 | `marketing/marketing-weibo-strategist.md` |
@@ -163,7 +144,7 @@
 | 小红书专家 | `marketing/marketing-xiaohongshu-specialist.md` |
 | 知乎策略师 | `marketing/marketing-zhihu-strategist.md` |
 
-## 💰 付费媒体部 (7)
+## 📺 付费媒体部 (7)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -175,7 +156,7 @@
 | 搜索词分析师 | `paid-media/paid-media-search-query-analyst.md` |
 | 追踪与归因专家 | `paid-media/paid-media-tracking-specialist.md` |
 
-## 📦 产品部 (5)
+## 🏗️ 产品部 (5)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -196,7 +177,7 @@
 | 工作室制片人 | `project-management/project-management-studio-producer.md` |
 | 高级项目经理 | `project-management/project-manager-senior.md` |
 
-## 💼 销售部 (8)
+## 🤝 销售部 (8)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -209,7 +190,7 @@
 | Pipeline 分析师 | `sales/sales-pipeline-analyst.md` |
 | 投标策略师 | `sales/sales-proposal-strategist.md` |
 
-## 🥽 空间计算部 (6)
+## 🗺️ 空间计算部 (6)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -220,7 +201,7 @@
 | XR 沉浸式开发者 | `spatial-computing/xr-immersive-developer.md` |
 | XR 界面架构师 | `spatial-computing/xr-interface-architect.md` |
 
-## 🔬 专项部 (46)
+## 🎯 专业部 (45)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -230,8 +211,6 @@
 | 自动化治理架构师 | `specialized/automation-governance-architect.md` |
 | 区块链安全审计师 | `specialized/blockchain-security-auditor.md` |
 | 合规审计师 | `specialized/compliance-auditor.md` |
-| 养殖档案核对员 | `specialized/livestock-archive-auditor.md` |
-| 土木工程师 | `specialized/specialized-civil-engineer.md` |
 | 企业培训课程设计师 | `specialized/corporate-training-designer.md` |
 | 数据整合师 | `specialized/data-consolidation-agent.md` |
 | 高考志愿填报顾问 | `specialized/gaokao-college-advisor.md` |
@@ -248,10 +227,14 @@
 | 信贷经理助手 | `specialized/loan-officer-assistant.md` |
 | LSP 索引工程师 | `specialized/lsp-index-engineer.md` |
 | 提示词工程师 | `specialized/prompt-engineer.md` |
+| 房地产经纪助手 | `specialized/real-estate-buyer-seller.md` |
 | 招聘专家 | `specialized/recruitment-specialist.md` |
 | 报告分发师 | `specialized/report-distribution-agent.md` |
+| 零售退货专家 | `specialized/retail-customer-returns.md` |
 | 销售数据提取师 | `specialized/sales-data-extraction-agent.md` |
 | AI 治理政策专家 | `specialized/specialized-ai-policy-writer.md` |
+| 幕僚长 | `specialized/specialized-chief-of-staff.md` |
+| 土木工程师 | `specialized/specialized-civil-engineer.md` |
 | 文化智能策略师 | `specialized/specialized-cultural-intelligence-strategist.md` |
 | 开发者布道师 | `specialized/specialized-developer-advocate.md` |
 | 文档生成器 | `specialized/specialized-document-generator.md` |
@@ -261,26 +244,22 @@
 | 会议效率专家 | `specialized/specialized-meeting-assistant.md` |
 | 模型 QA 专家 | `specialized/specialized-model-qa.md` |
 | 动态定价策略师 | `specialized/specialized-pricing-optimizer.md` |
-| 房地产经纪助手 | `specialized/real-estate-buyer-seller.md` |
-| 零售退货专家 | `specialized/retail-customer-returns.md` |
 | 企业风险评估师 | `specialized/specialized-risk-assessor.md` |
 | Salesforce 架构师 | `specialized/specialized-salesforce-architect.md` |
 | 工作流架构师 | `specialized/specialized-workflow-architect.md` |
-| 幕僚长 | `specialized/specialized-chief-of-staff.md` |
 | 留学规划顾问 | `specialized/study-abroad-advisor.md` |
 | 技术翻译专家 | `specialized/technical-translator-agent.md` |
 | ZK 管家 | `specialized/zk-steward.md` |
 
-## 🚚 供应链部 (4)
+## 🚚 供应链部 (3)
 
 | 中文名 | 文件路径 |
 |--------|----------|
 | 库存预测专家 | `supply-chain/supply-chain-inventory-forecaster.md` |
 | 物流路线优化师 | `supply-chain/supply-chain-route-optimizer.md` |
-| 供应链采购策略师 | `supply-chain/supply-chain-strategist.md` |
 | 供应商评估专家 | `supply-chain/supply-chain-vendor-evaluator.md` |
 
-## 🤝 支持部 (7)
+## 💬 支持部 (8)
 
 | 中文名 | 文件路径 |
 |--------|----------|
@@ -290,6 +269,7 @@
 | 基础设施运维师 | `support/support-infrastructure-maintainer.md` |
 | 法务合规员 | `support/support-legal-compliance-checker.md` |
 | 招聘运营专家 | `support/support-recruitment-specialist.md` |
+| 供应链采购策略师 | `support/support-supply-chain-strategist.md` |
 | 客服响应者 | `support/support-support-responder.md` |
 
 ## 🧪 测试部 (9)

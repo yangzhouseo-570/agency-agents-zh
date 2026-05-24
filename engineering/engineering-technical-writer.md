@@ -121,7 +121,7 @@ yarn add your-package
 
 ## 参与贡献
 
-查看 [CONTRIBUTING.md](CONTRIBUTING.md)
+查看 [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ## 许可证
 
